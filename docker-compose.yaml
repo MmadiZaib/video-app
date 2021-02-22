@@ -1,0 +1,74 @@
+version: "3.1"
+
+networks:
+  main:
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    networks:
+      - main
+    container_name: mysql
+    working_dir: /application
+    volumes:
+      - .:/application
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=video-db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
+    ports:
+      - "3306:3306"
+
+  nginx:
+    image: nginx:alpine
+    networks:
+      - main
+    container_name: nginx
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+
+  php-fpm:
+    build: docker/php
+    networks:
+      - main
+    container_name: php
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/php/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+
+#  node: &node
+#    image: node:10.22-slim
+#    networks:
+#      - main
+#    ports:
+#      - 3000:3000
+#    volumes:
+#      - ./:/application
+#      - node-volume:/application/node_modules:nocopy
+#    working_dir: /application
+#    tty: true
+#    stdin_open: true
+
+#  memcached:
+#    image: memcached:alpine
+#    container_name: video-memcached
+  
+  mailhog:
+    image: mailhog/mailhog:latest
+    networks:
+      - main
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+
+#  redis:
+#    image: redis:alpine
+#    networks:
+#      - main
+#    container_name: video-redis
