@@ -1,11 +1,13 @@
-<?php
-$sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,289029793,60594348,290253648];
-?>
+{#<?php#}
+{#$sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,289029793,60594348,290253648];#}
+{#?>#}
 
-<?php include('includes/_header.php'); ?>
-<?php include('includes/_menu.php'); ?>
+{% extends 'base.html.twig' %}
 
-<main role="main">
+{% block main %}
+    {% set sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,289029793,60594348,290253648] %}
+
+    <main role="main">
 
     <section class="jumbotron text-center">
         <div class="container">
@@ -14,7 +16,7 @@ $sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,28
             <div class="btn-group">
                 <div class="dropdown ml-2">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                            aria-haspopup="true" aria-expanded="false">
                         Subcategories
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -50,12 +52,12 @@ $sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,28
         <div class="container">
 
             <div class="row">
-                <?php foreach($sample_videos as $video): ?>
+                {% for video in sample_videos %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <div align="center" class="embed-responsive embed-responsive-16by9">
-                            <iframe class="" src="https://player.vimeo.com/video/<?=$video?>" frameborder="0"
-                                allowfullscreen></iframe>
+                            <iframe class="" src="https://player.vimeo.com/video/{{ video }}" frameborder="0"
+                                    allowfullscreen></iframe>
                         </div>
                         <div class="card-body">
                             <h3>Video title</h3>
@@ -65,34 +67,33 @@ $sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,28
                                     <i class="fa fa-thumbs-up"><small class="text-muted">(23)</small></i>&nbsp;
                                     <i class="fa fa-thumbs-down"><small class="text-muted">(9)</small></i>
                                     <button data-toggle="tooltip" data-placement="top" title="Click to like the video"
-                                        type="button" class="btn btn-primary btn-outline-success btn-sm ml-1">
+                                            type="button" class="btn btn-primary btn-outline-success btn-sm ml-1">
                                         <i class="fa fa-thumbs-up"></i>
                                     </button>
                                     <!-- <button data-toggle="tooltip" data-placement="top" title="You like the video. Click to unlike" type="button" class="btn btn-primary btn-outline-success btn-sm mr-2">
                                     <i class="fa fa-thumbs-up"></i>
                                     </button> -->
                                     <button data-toggle="tooltip" data-placement="top" title="Click to dislike the video"
-                                        type="button" class="btn btn-primary btn-outline-danger btn-sm ml-1 mr-1">
+                                            type="button" class="btn btn-primary btn-outline-danger btn-sm ml-1 mr-1">
                                         <i class="fa fa-thumbs-down"></i>
                                     </button>
                                     <!-- <button data-toggle="tooltip" data-placement="top" title="You don't like the video. Click to undo" type="button" class="btn btn-primary btn-outline-danger btn-sm mr-2">
                                     <i class="fa fa-thumbs-down"></i>
                                     </button> -->
-                                    <a href="video_details.html.twig#video_comments">Comments (32)</a>
+                                    <a href="{{ path('video_details') }}">Comments (32)</a>
                                 </div>
                                 <small class="text-muted">9 mins</small>
                             </div>
                         </div>
                     </div>
                 </div>
-                <?php endforeach; ?>
-
+                {% endfor %}
                 <!-- no members -->
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <div align="center" class="embed-responsive embed-responsive-16by9">
                             <iframe class="" src="https://player.vimeo.com/video/113716040" frameborder="0"
-                                allowfullscreen></iframe>
+                                    allowfullscreen></iframe>
                         </div>
                         <div class="card-body">
                             <h3>Video title</h3>
@@ -104,7 +105,7 @@ $sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,28
                                     <i class="fa fa-thumbs-up mr-2"><small class="text-muted">(23)</small></i>
                                     <i class="fa fa-thumbs-down mr-2"><small class="text-muted">(9)</small></i>
 
-                                    <a href="video_details.html.twig#video_comments">Comments (32)</a>
+                                    <a href="{{ path('video_details') }}">Comments (32)</a>
                                 </div>
                                 <small class="text-muted">9 mins</small>
                             </div>
@@ -140,6 +141,4 @@ $sample_videos = [289729765,238902809,150870038,219727723,289879647,261379936,28
 
 
 </main>
-
-<?php include('includes/_footer_links.php'); ?>
-<?php include('includes/_footer.php'); ?>
+{% endblock %}
