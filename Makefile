@@ -55,6 +55,9 @@ clean-db: ## Réinitialiser la base de donnée
 	$(SYMFONY_CONSOLE) d:m:m --no-interaction
 	$(SYMFONY_CONSOLE) d:f:l --no-interaction
 
+load-fixtures: cc ## load fixtures
+	$(SYMFONY_CONSOLE) d:f:l -n
+
 clean-db-test: cc-hard cc-test ## Réinitialiser la base de donnée en environnement de test
 	- $(SYMFONY_CONSOLE) d:d:d --force --env=test
 	$(SYMFONY_CONSOLE) d:d:c --env=test
