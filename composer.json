@@ -19,7 +19,9 @@
         "symfony/framework-bundle": "4.4.*",
         "symfony/maker-bundle": "^1.29",
         "symfony/proxy-manager-bridge": "4.4.*",
+        "symfony/stopwatch": "4.4.*",
         "symfony/twig-bundle": "4.4.*",
+        "symfony/web-profiler-bundle": "4.4.*",
         "symfony/webpack-encore-bundle": "^1.11",
         "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
@@ -69,5 +71,8 @@
             "allow-contrib": false,
             "require": "4.4.*"
         }
+    },
+    "require-dev": {
+        "symfony/debug-bundle": "4.4.*"
     }
 }
