@@ -1,5 +1,5 @@
 
 
 {% for category in categories %}
-    <a class="p-2 text-dark" href="{{ path('video_list', {'category_name': category.name|lower, 'id': category.id}) }}">{{ category.name }}</a>
+    <a class="p-2 text-dark" href="{{ path('video_list', {'category_name': category.name|slugify, 'id': category.id}) }}">{{ category.name }}</a>
 {% endfor %}
