@@ -6,9 +6,12 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @UniqueEntity("name")
  */
 class Category
 {
@@ -20,6 +23,7 @@ class Category
     private $id;
 
     /**
+     * @Assert\NotBlank(message="The name of category is required")
      * @ORM\Column(type="string", length=45, unique=true)
      */
     private $name;
