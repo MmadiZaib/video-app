@@ -4,28 +4,31 @@
 namespace App\Utils\AbstractClass;
 
 
-use App\Entity\Category;
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class CategoryTreeAbstract
 {
-    protected static $dbConnection;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
+    /** @var string */
+    public $categoryList;
 
     /**
      * @var array|null
      */
     public $categoriesArray;
+
+    protected static $dbConnection;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $entityManager;
+    /**
+     * @var UrlGeneratorInterface
+     */
+    protected $urlGenerator;
+
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator)
     {
