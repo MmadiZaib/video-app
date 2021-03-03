@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\unit\Twig;
+namespace App\Tests\Unit\Twig;
 
 use App\Twig\AppRuntime;
 use PHPUnit\Framework\TestCase;

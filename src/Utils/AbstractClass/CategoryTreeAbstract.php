@@ -27,7 +27,7 @@ abstract class CategoryTreeAbstract
     /**
      * @var UrlGeneratorInterface
      */
-    protected $urlGenerator;
+    public $urlGenerator;
 
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator)
