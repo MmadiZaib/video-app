@@ -76,6 +76,7 @@
         }
     },
     "require-dev": {
-        "symfony/debug-bundle": "4.4.*"
+        "symfony/debug-bundle": "4.4.*",
+        "symfony/phpunit-bridge": "^5.2"
     }
 }
