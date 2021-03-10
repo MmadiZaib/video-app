@@ -26,10 +26,13 @@ class VideoRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
-    public function findByChildIds(int $page , array  $ids)
+    public function findByChildIds(int $page , array  $ids, ?string $sortMethod)
     {
+        $sortMethod = $sortMethod != 'rating' ? $sortMethod: 'ASC';
+
         $qb = $this->createQueryBuilder('v')
             ->where('v.category IN (:ids)')
+            ->orderBy('v.title', $sortMethod)
             ->setParameter('ids', $ids)
             ->getQuery();
 
