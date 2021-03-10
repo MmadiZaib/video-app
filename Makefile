@@ -50,7 +50,7 @@ cc-hard: ## Supprimer le répertoire cache
 	$(PHP_DOCKER_COMPOSE_EXEC) rm -fR var/cache/*
 
 clean-db: ## Réinitialiser la base de donnée
-	$(SYMFONY_CONSOLE) d:d:d --force --connection
+	$(SYMFONY_CONSOLE) d:d:d --force --connection --if-exists
 	$(SYMFONY_CONSOLE) d:d:c
 	$(SYMFONY_CONSOLE) d:m:m --no-interaction
 	$(SYMFONY_CONSOLE) d:f:l --no-interaction
@@ -59,16 +59,16 @@ load-fixtures: cc ## load fixtures
 	$(SYMFONY_CONSOLE) d:f:l -n
 
 clean-db-test: cc-hard cc-test ## Réinitialiser la base de donnée en environnement de test
-	- $(SYMFONY_CONSOLE) d:d:d --force --env=test
+	$(SYMFONY_CONSOLE) d:d:d --force --env=test --if-exists
 	$(SYMFONY_CONSOLE) d:d:c --env=test
 	$(SYMFONY_CONSOLE) d:m:m --no-interaction --env=test
 	$(SYMFONY_CONSOLE) d:f:l --no-interaction --env=test
 
 test-unit: ## Lancement des tests unitaire
-	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/Unit/
+	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/unit/
 
 test-func: clean-db-test	## Lancement des tests fonctionnel
-	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/Func/
+	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/functional/
 
 tests: test-func test-unit	## Lancement de tous tests
 
