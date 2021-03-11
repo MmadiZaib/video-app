@@ -16,7 +16,10 @@ class AdminControllerCategoriesTest extends WebTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->client = static::createClient();
+        $this->client = static::createClient([] , [
+            'PHP_AUTH_USER' => 'admin@app.test',
+            'PHP_AUTH_PW'   => 'test',
+        ]);
         $this->client->disableReboot();
 
         $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
@@ -27,7 +30,7 @@ class AdminControllerCategoriesTest extends WebTestCase
 
     public function testTextOnPage(): void
     {
-        $crawler = $this->client->request('GET', '/admin/categories');
+        $crawler = $this->client->request('GET', '/admin/su/categories');
 
         $this->assertSame('Categories list', $crawler->filter('h2')->text());
         $this->assertStringContainsString('Electronics', $this->client->getResponse()->getContent());
@@ -35,13 +38,13 @@ class AdminControllerCategoriesTest extends WebTestCase
 
     public function testNumberOfItems(): void
     {
-        $crawler = $this->client->request('GET', '/admin/categories');
+        $crawler = $this->client->request('GET', '/admin/su/categories');
         $this->assertCount(21, $crawler->filter('option'));
     }
 
     public function testNewCategory(): void
     {
-        $crawler = $this->client->request('GET', '/admin/categories');
+        $crawler = $this->client->request('GET', '/admin/su/categories');
         $form = $crawler->selectButton('Add')->form([
             'category[name]' => 'Other',
             'category[parent]' => 1,
@@ -56,7 +59,7 @@ class AdminControllerCategoriesTest extends WebTestCase
 
     public function testEditCategory(): void
     {
-        $crawler = $this->client->request('GET', '/admin/edit-category/1');
+        $crawler = $this->client->request('GET', '/admin/su/edit-category/1');
         $form = $crawler->selectButton('Save')->form([
             'category[name]' => 'Electronics 2',
             'category[parent]' => 0,
@@ -70,7 +73,7 @@ class AdminControllerCategoriesTest extends WebTestCase
 
     public function testDeleteCategory(): void
     {
-        $this->client->request('GET', '/admin/delete-category/1');
+        $this->client->request('GET', '/admin/su/delete-category/1');
         $category = $this->entityManager->getRepository(Category::class)->find(1);
 
         $this->assertNull($category);
