@@ -3,6 +3,7 @@
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
                 <div align="center" class="embed-responsive embed-responsive-16by9">
+{#
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <iframe class="" src="{{ video.path }}" frameborder="0"
                             allowfullscreen>
@@ -11,6 +12,12 @@
                         <iframe class="" src="https://player.vimeo.com/video/113716040" frameborder="0"
                                 allowfullscreen></iframe>
                     {% endif %}
+#}
+
+                    <iframe class="" src="{{ video.vimeoId(app.user)  }}" frameborder="0"
+                            allowfullscreen>
+                    </iframe>
+
                 </div>
                 <div class="card-body">
                     <h3>{{ video.title }}</h3>
@@ -40,7 +47,7 @@
                             <i class="fa fa-thumbs-down"></i>
                             </button> -->
                             {% endif %}
-                            <a class="ml-2" href="{{ path('video_details') }}">Comments (32)</a>
+                            <a class="ml-2" href="{{ path('video_details', {'video': video.id}) }}">Comments ({{ video.comments.count }})</a>
                         </div>
 
                         <small class="text-muted">{{ video.duration }} mins</small>

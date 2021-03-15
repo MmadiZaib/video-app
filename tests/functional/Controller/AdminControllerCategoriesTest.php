@@ -3,29 +3,18 @@
 namespace App\Tests\Functional\Controller;
 
 use App\Entity\Category;
+use App\Tests\utils\Rollback;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerCategoriesTest extends WebTestCase
 {
+    use Rollback;
+
     protected $client;
 
     /** @var EntityManagerInterface  */
     protected $entityManager;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->client = static::createClient([] , [
-            'PHP_AUTH_USER' => 'admin@app.test',
-            'PHP_AUTH_PW'   => 'test',
-        ]);
-        $this->client->disableReboot();
-
-        $this->entityManager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
-        //$this->entityManager->beginTransaction();
-        //$this->entityManager->getConnection()->setAutoCommit(false);
-    }
 
 
     public function testTextOnPage(): void
@@ -77,13 +66,5 @@ class AdminControllerCategoriesTest extends WebTestCase
         $category = $this->entityManager->getRepository(Category::class)->find(1);
 
         $this->assertNull($category);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        //$this->entityManager->rollback();
-        //$this->entityManager->close();
-        $this->entityManager = null; // avoid memory leaks
     }
 }

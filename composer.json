@@ -13,6 +13,7 @@
         "doctrine/orm": "^2.8",
         "fzaninotto/faker": "^1.9",
         "knplabs/knp-paginator-bundle": "^5.4",
+        "knplabs/knp-time-bundle": "^1.16",
         "sensio/framework-extra-bundle": "^6.1",
         "sensiolabs/security-checker": "^6.0",
         "symfony/asset": "4.4.*",
