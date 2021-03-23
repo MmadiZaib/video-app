@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block custom_css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('likes-css') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('likes-js') }}
+{% endblock %}
+
 {% block main %}
 
     <main role="main">
@@ -37,7 +47,7 @@
 
     <!-- pagination -->
         {{ knp_pagination_render(videos) }}
-    </nav>#}
+    </nav>
 
 
 </main>

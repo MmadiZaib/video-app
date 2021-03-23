@@ -28,7 +28,8 @@ class FrontControllerCommentsTest extends WebTestCase
     {
         $this->client->followRedirects();
 
-        $crawler = $this->client->request('GET', '/video-details/16');
+        $crawler = $this->client->request('GET', '/new-details/16');
+
         $form = $crawler->selectButton('Add')->form([
             'comment' => 'Test comment'
         ]);

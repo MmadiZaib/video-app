@@ -17,6 +17,7 @@ class Video
 
     const VIMEO_PATH = 'https://player.vimeo.com/video/';
     const VIDEO_FOR_NOT_LOGGED_IN = 113716040;
+    const PER_PAGE = 5;
 
     /**
      * @ORM\Id
@@ -52,9 +53,23 @@ class Video
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likedVideos")
+     * @ORM\JoinTable(name="likes")
+     */
+    private $userThatLike;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="dislikedVideos")
+     * @ORM\JoinTable(name="dislikes")
+     */
+    private $userThatDontLike;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->userThatLike = new ArrayCollection();
+        $this->userThatDontLike = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,5 +162,53 @@ class Video
         }
 
         return self::VIMEO_PATH . self::VIDEO_FOR_NOT_LOGGED_IN;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUserThatLike(): Collection
+    {
+        return $this->userThatLike;
+    }
+
+    public function addUserThatLike(User $userThatLike): self
+    {
+        if (!$this->userThatLike->contains($userThatLike)) {
+            $this->userThatLike[] = $userThatLike;
+        }
+
+        return $this;
+    }
+
+    public function removeUserThatLike(User $userThatLike): self
+    {
+        $this->userThatLike->removeElement($userThatLike);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUserThatDontLike(): Collection
+    {
+        return $this->userThatDontLike;
+    }
+
+    public function addUserThatDontLike(User $userThatDontLike): self
+    {
+        if (!$this->userThatDontLike->contains($userThatDontLike)) {
+            $this->userThatDontLike[] = $userThatDontLike;
+        }
+
+        return $this;
+    }
+
+    public function removeUserThatDontLike(User $userThatDontLike): self
+    {
+        $this->userThatDontLike->removeElement($userThatDontLike);
+
+        return $this;
     }
 }

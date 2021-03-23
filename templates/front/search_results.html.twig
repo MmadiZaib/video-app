@@ -1,5 +1,18 @@
 {% extends 'base.html.twig' %}
 
+
+{% block custom_css %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('likes-css') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('likes-js') }}
+{% endblock %}
+
+
+
 {% block main %}
     <section class="jumbotron text-center">
         <div class="container">
