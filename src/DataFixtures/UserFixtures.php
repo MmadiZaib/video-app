@@ -39,7 +39,7 @@ class UserFixtures extends Fixture
           ['John', 'Doe', 'john@app.test', 'test', 'hjd8dehdh', ['ROLE_ADMIN']],
           ['user', 'Doe', 'user@app.test', 'test', null, ['ROLE_USER']],
           ['admin', 'Doe', 'admin@app.test', 'test', null, ['ROLE_ADMIN']],
-          ['test', 'test', 'test@app.test', 'test', null, ['ROLE_USER']],
+          ['sub', 'sub', 'sub@app.test', 'test', null, ['ROLE_USER']],
         ];
     }
 }

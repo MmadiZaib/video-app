@@ -32,7 +32,7 @@ vendor-update:	## Mise à jour des vendors
 composer:	## Composer
 	$(PHP_DOCKER_COMPOSE_EXEC) composer $(filter-out $@,$(MAKECMDGOALS))
 
-symfony:	## Composer
+console:	## Composer
 	$(SYMFONY_CONSOLE) $(filter-out $@,$(MAKECMDGOALS))
 
 clean-vendor: cc-hard ## Suppression du répertoire vendor puis un réinstall
