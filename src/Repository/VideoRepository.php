@@ -59,10 +59,9 @@ class VideoRepository extends ServiceEntityRepository
     public function findByTitle(string $query, int $page, ?string $sortMethod)
     {
         $qb = $this->createQueryBuilder('v');
+        $searchTerms = $this->prepareQuery($query);
 
         if ($sortMethod != 'rating') {
-
-            $searchTerms = $this->prepareQuery($query);
 
             foreach ($searchTerms as $key => $term){
                 $qb->orWhere('v.title LIKE :t_' . $key)
@@ -91,7 +90,9 @@ class VideoRepository extends ServiceEntityRepository
 
     private function prepareQuery(string $query): array
     {
-        return explode(' ', $query);
+        return array_filter(array_unique(explode(' ', $query)), function ($term) {
+            return 2 <= mb_strlen($term);
+        });
     }
 
 
