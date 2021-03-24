@@ -15,9 +15,6 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class VideoRepository extends ServiceEntityRepository
 {
-    /**
-     * @var PaginatorInterface
-     */
     private PaginatorInterface $paginator;
 
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
@@ -26,11 +23,11 @@ class VideoRepository extends ServiceEntityRepository
         $this->paginator = $paginator;
     }
 
-    public function findByChildIds(int $page , array  $ids, ?string $sortMethod)
+    public function findByChildIds(int $page, array $ids, ?string $sortMethod)
     {
-       // $sortMethod = $sortMethod != 'rating' ? $sortMethod: 'ASC';
+        // $sortMethod = $sortMethod != 'rating' ? $sortMethod: 'ASC';
 
-        if ($sortMethod != 'rating') {
+        if ('rating' != $sortMethod) {
             $qb = $this->createQueryBuilder('v')
                 ->andWhere('v.category IN (:ids)')
                 ->leftJoin('v.comments', 'c')
@@ -40,8 +37,7 @@ class VideoRepository extends ServiceEntityRepository
                 ->orderBy('v.title', $sortMethod)
                 ->setParameter('ids', $ids)
                 ->getQuery();
-        }
-        else {
+        } else {
             $qb = $this->createQueryBuilder('v')
                 ->addSelect('COUNT(l) AS HIDDEN likes')
                 ->leftJoin('v.userThatLike', 'l')
@@ -55,17 +51,15 @@ class VideoRepository extends ServiceEntityRepository
         return $this->paginator->paginate($qb, $page, Video::PER_PAGE);
     }
 
-
     public function findByTitle(string $query, int $page, ?string $sortMethod)
     {
         $qb = $this->createQueryBuilder('v');
         $searchTerms = $this->prepareQuery($query);
 
-        if ($sortMethod != 'rating') {
-
-            foreach ($searchTerms as $key => $term){
-                $qb->orWhere('v.title LIKE :t_' . $key)
-                    ->setParameter('t_'. $key, '%' . trim($term). '%');
+        if ('rating' != $sortMethod) {
+            foreach ($searchTerms as $key => $term) {
+                $qb->orWhere('v.title LIKE :t_'.$key)
+                    ->setParameter('t_'.$key, '%'.trim($term).'%');
             }
 
             $qb->orderBy('v.title', $sortMethod)
@@ -74,7 +68,6 @@ class VideoRepository extends ServiceEntityRepository
                 ->leftJoin('v.userThatDontLike', 'd')
                 ->addSelect('c', 'l', 'd')
                 ->getQuery();
-
         } else {
             $qb->addSelect('COUNT(l) AS HIDDEN likes', 'c')
                 ->leftJoin('v.userThatLike', 'l')
@@ -85,7 +78,6 @@ class VideoRepository extends ServiceEntityRepository
         }
 
         return $this->paginator->paginate($qb, $page, Video::PER_PAGE);
-
     }
 
     private function prepareQuery(string $query): array
@@ -94,7 +86,6 @@ class VideoRepository extends ServiceEntityRepository
             return 2 <= mb_strlen($term);
         });
     }
-
 
     public function videoDetails(int $id)
     {
@@ -107,8 +98,6 @@ class VideoRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-
 
     // /**
     //  * @return Video[] Returns an array of Video objects

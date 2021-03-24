@@ -3,13 +3,13 @@
 namespace App\Tests\Functional\Controller;
 
 use App\Entity\Category;
-use App\Tests\utils\Rollback;
+use App\Tests\utils\RoleAdmin;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminControllerCategoriesTest extends WebTestCase
 {
-    use Rollback;
+    use RoleAdmin;
 
     protected $client;
 

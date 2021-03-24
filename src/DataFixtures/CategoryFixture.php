@@ -5,11 +5,9 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
 class CategoryFixture extends Fixture
 {
-
     public function load(ObjectManager $manager)
     {
         $this->loadMainCategories($manager);
@@ -39,7 +37,7 @@ class CategoryFixture extends Fixture
             ['Electronics', 1],
             ['Toys', 2],
             ['Movies', 3],
-            ['Books', 4]
+            ['Books', 4],
         ];
     }
 
@@ -56,10 +54,9 @@ class CategoryFixture extends Fixture
     {
         return [
             ['Acer', 8],
-            ['Apple', 9]
+            ['Apple', 9],
         ];
     }
-
 
     private function getLaptopsData(): array
     {
@@ -68,7 +65,7 @@ class CategoryFixture extends Fixture
             ['Asus', 11],
             ['Dell xp', 12],
             ['Lenovo', 13],
-            ['HP', 14]
+            ['HP', 14],
         ];
     }
 
@@ -84,7 +81,7 @@ class CategoryFixture extends Fixture
     {
         return [
             ['Family', 17],
-            ['Romance', 18]
+            ['Romance', 18],
         ];
     }
 
@@ -92,10 +89,9 @@ class CategoryFixture extends Fixture
     {
         return [
             ['Romantic Comedy', 19],
-            ['Romantic Drama', 20]
+            ['Romantic Drama', 20],
         ];
     }
-
 
     private function loadSubCategories(ObjectManager $manager, string $category, $parentId)
     {
@@ -103,7 +99,6 @@ class CategoryFixture extends Fixture
         $methodName = "get${category}Data";
 
         foreach ($this->$methodName() as [$name]) {
-
             $category = new Category();
             $category->setName($name);
             $category->setParent($parent);

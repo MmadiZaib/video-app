@@ -9,9 +9,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
     private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -19,11 +16,9 @@ class UserFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-
     public function load(ObjectManager $manager)
     {
-        foreach ($this->userData() as [$name, $lastName, $email, $password, $apiKey, $roles])
-        {
+        foreach ($this->userData() as [$name, $lastName, $email, $password, $apiKey, $roles]) {
             $user = new User();
             $user->setName($name);
             $user->setLastName($lastName);
@@ -44,7 +39,7 @@ class UserFixtures extends Fixture
           ['John', 'Doe', 'john@app.test', 'test', 'hjd8dehdh', ['ROLE_ADMIN']],
           ['user', 'Doe', 'user@app.test', 'test', null, ['ROLE_USER']],
           ['admin', 'Doe', 'admin@app.test', 'test', null, ['ROLE_ADMIN']],
+          ['test', 'test', 'test@app.test', 'test', null, ['ROLE_USER']],
         ];
     }
-
 }

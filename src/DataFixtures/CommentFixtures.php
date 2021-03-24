@@ -13,9 +13,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-
-        foreach ($this->commentDate() as [$content, $user, $video, $createdAt])
-        {
+        foreach ($this->commentDate() as [$content, $user, $video, $createdAt]) {
             $comment = new Comment();
             $user = $manager->getRepository(User::class)->find($user);
             $video = $manager->getRepository(Video::class)->find($video);
@@ -31,21 +29,19 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-
     private function commentDate(): array
     {
         return [
           ['Cras sit amo, vestnc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.', 1, 10, '2021-10-08 12:24:45'],
           ['Cras sit amo, vestnc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.', 2, 10, '2021-10-08 13:24:45'],
           ['Cras sit amo, vestnc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.', 3, 10, '2021-10-08 15:24:45'],
-
         ];
     }
 
     public function getDependencies()
     {
-       return array(
-           UserFixtures::class
-       );
+        return [
+           UserFixtures::class,
+       ];
     }
 }

@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping\Index as Index;
  */
 class Video
 {
-
     const VIMEO_PATH = 'https://player.vimeo.com/video/';
     const VIDEO_FOR_NOT_LOGGED_IN = 113716040;
     const PER_PAGE = 5;
@@ -42,7 +41,6 @@ class Video
     private $duration;
 
     /**
-     *
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="CASCADE")
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="videos")
      */
@@ -161,7 +159,7 @@ class Video
             return $this->getPath();
         }
 
-        return self::VIMEO_PATH . self::VIDEO_FOR_NOT_LOGGED_IN;
+        return self::VIMEO_PATH.self::VIDEO_FOR_NOT_LOGGED_IN;
     }
 
     /**

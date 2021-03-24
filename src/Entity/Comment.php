@@ -69,8 +69,7 @@ class Comment
      */
     public function setCreatedAt(): self
     {
-
-        if (isset($this->createdAtForFixture)){
+        if (isset($this->createdAtForFixture)) {
             $this->createdAt = $this->createdAtForFixture;
         }
 
@@ -79,14 +78,12 @@ class Comment
         return $this;
     }
 
-
     public function setCreatedAtForFixtures(\DateTimeInterface $createdAt): self
     {
         $this->createdAtForFixture = $createdAt;
 
         return $this;
     }
-
 
     public function getUser(): ?User
     {

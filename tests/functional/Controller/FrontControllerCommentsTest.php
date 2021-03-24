@@ -2,12 +2,12 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\Tests\utils\Rollback;
+use App\Tests\utils\RoleAdmin;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FrontControllerCommentsTest extends WebTestCase
 {
-    use Rollback;
+    use RoleAdmin;
 
     public function testNotLoggedInUser(): void
     {
@@ -28,7 +28,7 @@ class FrontControllerCommentsTest extends WebTestCase
     {
         $this->client->followRedirects();
 
-        $crawler = $this->client->request('GET', '/new-details/16');
+        $crawler = $this->client->request('GET', '/video-details/11');
 
         $form = $crawler->selectButton('Add')->form([
             'comment' => 'Test comment'
@@ -38,8 +38,8 @@ class FrontControllerCommentsTest extends WebTestCase
 
         $this->assertStringContainsString('Test comment', $this->client->getResponse()->getContent());
 
-        $crawler = $this->client->request('GET', '/video-list/category/movies,3');
+        $this->client->request('GET', '/video-list/category/movies,3');
 
-        //$this->assertSame('Comments (1)', $crawler->filter('a.ml-2')->text());
+        $this->assertStringContainsString('Comments (1)', $this->client->getResponse()->getContent());
     }
 }

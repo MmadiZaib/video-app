@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Utils\AbstractClass;
-
 
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +27,6 @@ abstract class CategoryTreeAbstract
      */
     public $urlGenerator;
 
-
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator)
     {
         $this->entityManager = $entityManager;
@@ -43,10 +40,10 @@ abstract class CategoryTreeAbstract
     {
         $subCategory = [];
 
-        foreach ($this->categoriesArray as $category){
+        foreach ($this->categoriesArray as $category) {
             if ($category['parent_id'] == $parentId) {
                 $children = $this->buildTree($category['id']);
-                if ($children){
+                if ($children) {
                     $category['children'] = $children;
                 }
 
@@ -58,19 +55,17 @@ abstract class CategoryTreeAbstract
     }
 
     /**
-     * @return array|null
      * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
     private function getCategories(): ?array
     {
-        if (self::$dbConnection)
-        {
+        if (self::$dbConnection) {
             return self::$dbConnection;
         }
 
         $connection = $this->entityManager->getConnection();
-        $sql = "select * from category";
+        $sql = 'select * from category';
         $statement = $connection->prepare($sql);
         $statement->execute();
 

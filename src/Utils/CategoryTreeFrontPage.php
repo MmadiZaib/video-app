@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Utils;
-
 
 use App\Twig\AppRuntime;
 use App\Utils\AbstractClass\CategoryTreeAbstract;
@@ -24,12 +22,11 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
     /** @var string */
     public $mainParentName;
 
-    /** @var integer */
+    /** @var int */
     public $mainParentId;
 
     /** @var string */
     public $currentCategoryName;
-
 
     public function getCategoryList(array $categories_array): string
     {
@@ -37,8 +34,8 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
 
         foreach ($categories_array as $category) {
             $categoryName = $this->slugger->slugify($category['name']);
-            $url = $this->urlGenerator->generate('video_list', ['category_name' => $categoryName, 'id' => $category['id'] ]);
-            $this->categoryList .= $this->html_2 . $this->html_3 . $url . $this->html_4 . $category['name'] . $this->html_5;
+            $url = $this->urlGenerator->generate('video_list', ['category_name' => $categoryName, 'id' => $category['id']]);
+            $this->categoryList .= $this->html_2.$this->html_3.$url.$this->html_4.$category['name'].$this->html_5;
 
             if (!empty($category['children'])) {
                 $this->getCategoryList($category['children']);
@@ -54,20 +51,19 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
     {
         $key = array_search($id, array_column($this->categoriesArray, 'id'));
 
-        if($this->categoriesArray[$key]['parent_id'] !== null) {
+        if (null !== $this->categoriesArray[$key]['parent_id']) {
             return $this->getMainParent($this->categoriesArray[$key]['parent_id']);
-        }
-        else {
+        } else {
             return [
-                'id' =>  $this->categoriesArray[$key]['id'],
-                'name' => $this->categoriesArray[$key]['name']
+                'id' => $this->categoriesArray[$key]['id'],
+                'name' => $this->categoriesArray[$key]['name'],
             ];
         }
     }
 
     public function getCategoryListAndParent(int $id): string
     {
-        $this->slugger  = new AppRuntime();
+        $this->slugger = new AppRuntime();
         $parentData = $this->getMainParent($id); // main parent of subcategory
 
         $this->mainParentName = $parentData['name'];
@@ -87,8 +83,8 @@ class CategoryTreeFrontPage extends CategoryTreeAbstract
         static $ids = [];
 
         foreach ($this->categoriesArray as $category) {
-            if ($category['parent_id'] === $parent){
-                $ids[] = $category['id'] . ',';
+            if ($category['parent_id'] === $parent) {
+                $ids[] = $category['id'].',';
                 $this->getChildIds($category['id']);
             }
         }

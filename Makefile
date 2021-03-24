@@ -70,10 +70,13 @@ test-unit: ## Lancement des tests unitaire
 test-func: clean-db-test	## Lancement des tests fonctionnel
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/functional/
 
+test-single:
+	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit --testdox $(test)
+
 tests: test-func test-unit	## Lancement de tous tests
 
-cs: ## Lancement du php cs
-	$(PHP_DOCKER_COMPOSE_EXEC) vendor/bin/phpcs -n
+cs-fix: ## Lancement du php-cs-fixer
+	$(PHP_DOCKER_COMPOSE_EXEC) vendor/bin/php-cs-fixer fix src
 
 %:
     @:
