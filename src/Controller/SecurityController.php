@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\traits\SaveSubscription;
 use App\Entity\Subscription;
 use App\Entity\User;
 use App\Form\UserType;
@@ -17,6 +18,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    use SaveSubscription;
+
     /**
      * @Route("/login", name="login")
      */
@@ -103,9 +106,12 @@ class SecurityController extends AbstractController
         }
 
         if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED') &&
-            $plan === Subscription::getPlanDataNameByIndex(0)) {
+            $plan === Subscription::getPlanDataNameByIndex(Subscription::FREE_PLAN)) {
+            $this->saveSubscription($plan, $this->getUser());
+
             return $this->redirectToRoute('admin_main_page');
-        } elseif ($this->isGranted('IS_AUTHENTICATED_REMEMBERED') && $plan != Subscription::getPlanDataNameByIndex(0)) {
+        } elseif ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')
+            && $plan != Subscription::getPlanDataNameByIndex(Subscription::FREE_PLAN)) {
             return $this->redirectToRoute('payment');
         }
 
