@@ -69,6 +69,9 @@ clean-db-test: cc-hard cc-test ## Réinitialiser la base de donnée en environne
 test-unit: ## Lancement des tests unitaire
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/unit/
 
+test-unit-coverage:
+	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/unit/ --testdox --coverage-html=test-coverage --testsuite=unit
+
 test-func: clean-db-test	## Lancement des tests fonctionnel
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/functional/
 
