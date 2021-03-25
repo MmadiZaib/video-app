@@ -72,6 +72,9 @@ test-unit: ## Lancement des tests unitaire
 test-unit-coverage:
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/unit/ --testdox --coverage-html=test-coverage --testsuite=unit
 
+test-single-coverage:
+	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/unit/ --testdox --coverage-text $(test)
+
 test-func: clean-db-test	## Lancement des tests fonctionnel
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/functional/
 

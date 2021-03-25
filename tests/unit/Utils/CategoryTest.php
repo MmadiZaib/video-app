@@ -108,7 +108,7 @@ class CategoryTest extends KernelTestCase
     public function dataForCategoryTreeAdminList(): iterable
     {
         yield [
-          '<ul class="fa-ul text-left"><li><i class="fa-li fa fa-arrow-right"></i> Electronics<a href="/admin/su/edit-category/1">Edit</a><a onclick="return confirm(\'Are you sure?\');" href="/admin/delete-category/1">Delete</a></li></ul>',
+          '<ul class="fa-ul text-left"><li><i class="fa-li fa fa-arrow-right"></i> Electronics<a href="/admin/su/edit-category/1">Edit</a><a onclick="return confirm(\'Are you sure?\');" href="/admin/su/delete-category/1">Delete</a></li></ul>',
           [
               ['id' => 1, 'parent_id' => null, 'name' => 'Electronics']
           ]
