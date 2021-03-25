@@ -53,6 +53,7 @@ clean-db: ## Réinitialiser la base de donnée
 	$(SYMFONY_CONSOLE) d:d:d --force --connection --if-exists
 	$(SYMFONY_CONSOLE) d:d:c
 	$(SYMFONY_CONSOLE) d:m:m --no-interaction
+	$(SYMFONY_CONSOLE) d:s:u --force
 	$(SYMFONY_CONSOLE) d:f:l --no-interaction
 
 load-fixtures: cc ## load fixtures
@@ -62,6 +63,7 @@ clean-db-test: cc-hard cc-test ## Réinitialiser la base de donnée en environne
 	$(SYMFONY_CONSOLE) d:d:d --force --env=test --if-exists
 	$(SYMFONY_CONSOLE) d:d:c --env=test
 	$(SYMFONY_CONSOLE) d:m:m --no-interaction --env=test
+	$(SYMFONY_CONSOLE) d:s:u --force --env=test
 	$(SYMFONY_CONSOLE) d:f:l --no-interaction --env=test
 
 test-unit: ## Lancement des tests unitaire

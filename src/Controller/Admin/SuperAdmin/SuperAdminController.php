@@ -3,7 +3,9 @@
 namespace App\Controller\Admin\SuperAdmin;
 
 use App\Entity\Category;
+use App\Entity\User;
 use App\Form\CategoryType;
+use App\Repository\UserRepository;
 use App\Utils\CategoryTreeAdminList;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,9 +94,25 @@ class SuperAdminController extends AbstractController
     /**
      * @Route("/su/users", name="users")
      */
-    public function users(): Response
+    public function users(UserRepository $userRepository): Response
     {
-        return $this->render('admin/users.html.twig');
+        $users = $userRepository->findBy([], ['name' => 'ASC']);
+
+        return $this->render('admin/users.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    /**
+     * @Route("/delete-user/{user}", name="delete_user")
+     */
+    public function deleteUser(User $user): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($user);
+        $em->flush();
+
+        return $this->redirectToRoute('users');
     }
 
     /**

@@ -16,16 +16,20 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $options['user'];
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'First Name',
                 'required' => true,
             ])
-            ->add('last_name', TextType::class, ['label' => 'Last Name'])
+            ->add('last_name', TextType::class, [
+                'label' => 'Last Name',
+                'required' => true,
+            ])
             ->add('email', EmailType::class, [
                 'label' => 'Email Address',
                 'required' => true,
-                'data' => 'you@example.com',
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -43,12 +47,19 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Confirm Password'],
             ])
         ;
+
+        if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
+            $builder->add('vimeo_api_key', TextType::class, [
+                'empty_data' => '',
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'user' => null,
         ]);
     }
 }
