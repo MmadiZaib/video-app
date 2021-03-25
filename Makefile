@@ -17,7 +17,7 @@ stop:	## Arréter les containers docker
 rm:	stop ## Supprimer les containers docker
 	$(DOCKER_COMPOSE) rm -f
 
-restart: rm start	## redémarrer les containers
+restart: stop start	## redémarrer les containers
 
 ssh-php:	## Connexion au container php
 	$(PHP_DOCKER_COMPOSE_EXEC) bash

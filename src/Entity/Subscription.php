@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Subscription
 {
+    const FREE_PLAN = 0;
+
     private static array $planDataNames = ['free', 'pro', 'enterprise'];
 
     private static array $planDataPrices = [
@@ -41,9 +43,9 @@ class Subscription
     private $paymentStatus;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $freePlanUsed;
+    private $freePlanUsed = false;
 
     public function getId(): ?int
     {
@@ -106,6 +108,11 @@ class Subscription
     public static function getPlanDataPriceByIndex(int $index): int
     {
         return self::$planDataPrices[$index];
+    }
+
+    public static function getPlanDataPriceByName(string $name): int
+    {
+        return self::$planDataPrices[$name];
     }
 
     public static function getPlanDataNames(): array

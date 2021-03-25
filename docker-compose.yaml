@@ -67,8 +67,10 @@ services:
     ports:
       - "8025:8025"
 
-#  redis:
-#    image: redis:alpine
-#    networks:
-#      - main
-#    container_name: video-redis
+  redis:
+    image: redis:alpine
+    networks:
+      - main
+    ports:
+      - 6379:6379
+    container_name: video-redis

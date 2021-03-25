@@ -27,5 +27,20 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+#    Redis:
+#        class: Redis
+#        calls:
+#            - connect:
+#                  - '%env(REDIS_HOST)%'
+#                  - '%env(int:REDIS_PORT)%'
+#
+#            # uncomment the following if your Redis server requires a password
+#            # - auth:
+#            #     - '%env(REDIS_PASSWORD)%'
+#
+#    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+#        arguments:
+#            - '@Redis'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
