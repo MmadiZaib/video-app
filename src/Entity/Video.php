@@ -14,9 +14,10 @@ use Doctrine\ORM\Mapping\Index as Index;
  */
 class Video
 {
-    const VIMEO_PATH = 'https://player.vimeo.com/video/';
-    const VIDEO_FOR_NOT_LOGGED_IN_OR_NO_MEMBERS = 113716040;
-    const PER_PAGE = 5;
+    public const VIMEO_PATH = 'https://player.vimeo.com/video/';
+    public const VIDEO_FOR_NOT_LOGGED_IN_OR_NO_MEMBERS = 113716040;
+    public const PER_PAGE = 5;
+    public const uploadFolder = '/uploads/videos/';
 
     /**
      * @ORM\Id
@@ -62,6 +63,8 @@ class Video
      * @ORM\JoinTable(name="dislikes")
      */
     private $userThatDontLike;
+
+    private $uploadVideo;
 
     public function __construct()
     {
@@ -202,6 +205,18 @@ class Video
     public function removeUserThatDontLike(User $userThatDontLike): self
     {
         $this->userThatDontLike->removeElement($userThatDontLike);
+
+        return $this;
+    }
+
+    public function getUploadVideo()
+    {
+        return $this->uploadVideo;
+    }
+
+    public function setUploadVideo($uploadVideo): self
+    {
+        $this->uploadVideo = $uploadVideo;
 
         return $this;
     }

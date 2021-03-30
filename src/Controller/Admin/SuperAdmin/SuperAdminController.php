@@ -4,8 +4,11 @@ namespace App\Controller\Admin\SuperAdmin;
 
 use App\Entity\Category;
 use App\Entity\User;
+use App\Entity\Video;
 use App\Form\CategoryType;
+use App\Form\VideoType;
 use App\Repository\UserRepository;
+use App\Services\Uploader\UploaderInterface;
 use App\Utils\CategoryTreeAdminList;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -116,10 +119,51 @@ class SuperAdminController extends AbstractController
     }
 
     /**
-     * @Route("/su/upload-video", name="upload_video")
+     * @Route("/su/upload-video-locally", name="upload_video_locally")
      */
-    public function uploadVideo(): Response
+    public function uploadVideoLocally(Request $request, UploaderInterface $fileUploader): Response
     {
-        return $this->render('admin/upload_video.html.twig');
+        $video = new Video();
+
+        $form = $this->createForm(VideoType::class, $video);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $file = $video->getUploadVideo();
+
+            $fileName = $fileUploader->upload($file);
+
+            $basePath = Video::uploadFolder;
+            $video->setPath(sprintf('%s%s', $basePath, $fileName[0]));
+            $video->setTitle($fileName[1]);
+
+            $em->persist($video);
+            $em->flush();
+
+            return $this->redirectToRoute('videos');
+        }
+
+        return $this->render('admin/upload_video_locally.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/su/delete-video/{video}/{path}", name="delete_video", requirements={"path"=".+"})
+     */
+    public function deleteVideo(Video $video, string $path, UploaderInterface $fileUploader): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($video);
+        $em->flush();
+
+        if ($fileUploader->delete($path)) {
+            $this->addFlash('success', 'The video was successfully deleted.');
+        } else {
+            $this->addFlash('danger', 'We were not able to delete. Check the video.');
+        }
+
+        return $this->redirectToRoute('videos');
     }
 }
