@@ -166,4 +166,19 @@ class SuperAdminController extends AbstractController
 
         return $this->redirectToRoute('videos');
     }
+
+    /**
+     * @Route("/su/update-video-category/{video}", methods={"POST"}, name="update_video_category")
+     */
+    public function updateVideoCategory(Request $request, Video $video): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository(Category::class)->find($request->request->get('video_category'));
+        $video->setCategory($category);
+
+        $em->persist($video);
+        $em->flush();
+
+        return $this->redirectToRoute('videos');
+    }
 }

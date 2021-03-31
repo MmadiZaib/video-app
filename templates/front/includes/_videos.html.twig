@@ -2,25 +2,14 @@
     {% for video in videos %}
 
         {% if  video_no_members is not null %}
-            {% set videoId = 'https://player.vimeo.com/video/' ~ video_no_members %}
+            {% set videoId = video_no_members %}
         {% else %}
-            {% set videoId = video.vimeoId %}
+            {% set videoId = video.path %}
         {% endif %}
-
 
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
                 <div align="center" class="embed-responsive embed-responsive-16by9">
-{#
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    <iframe class="" src="{{ video.path }}" frameborder="0"
-                            allowfullscreen>
-                    </iframe>
-                    {% else %}
-                        <iframe class="" src="https://player.vimeo.com/video/113716040" frameborder="0"
-                                allowfullscreen></iframe>
-                    {% endif %}
-#}
                     <iframe class="" src="{{ videoId }}" frameborder="0"
                             allowfullscreen>
                     </iframe>

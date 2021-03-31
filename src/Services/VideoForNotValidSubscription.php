@@ -23,7 +23,7 @@ class VideoForNotValidSubscription
         }
     }
 
-    public function check(): ?int
+    public function check(): ?string
     {
         if ($this->isSubscriptionValid) {
             return null;

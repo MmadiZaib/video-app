@@ -15,7 +15,8 @@ use Doctrine\ORM\Mapping\Index as Index;
 class Video
 {
     public const VIMEO_PATH = 'https://player.vimeo.com/video/';
-    public const VIDEO_FOR_NOT_LOGGED_IN_OR_NO_MEMBERS = 113716040;
+    //public const VIDEO_FOR_NOT_LOGGED_IN_OR_NO_MEMBERS = 113716040;
+    public const VIDEO_FOR_NOT_LOGGED_IN_OR_NO_MEMBERS = 'https://player.vimeo.com/video/113716040';
     public const PER_PAGE = 5;
     public const uploadFolder = '/uploads/videos/';
 
@@ -158,7 +159,13 @@ class Video
 
     public function getVimeoId(): ?string
     {
-        return self::VIMEO_PATH;
+        if (false !== strpos($this->path, self::uploadFolder)) {
+            return $this->path;
+        }
+
+        $array = explode('/', $this->path);
+
+        return end($array);
     }
 
     /**

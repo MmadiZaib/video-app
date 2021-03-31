@@ -22,14 +22,9 @@
         <p class="text-left">You don't have any plan. <a href="{{ path('pricing') }}">Get plan</a></p>
     {% endif %}
 
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_start(form) }}
         {% if is_granted('ROLE_ADMIN') %}
         <div class="form-group">
-{#            <label for="vimeoapikey">Vimeo API key</label>#}
-{#            <input required type="text" class="form-control is-invalid" id="vimeoapikey" placeholder="Enter api key">#}
-{#            <div class="invalid-feedback">#}
-{#                Please provide api key#}
-{#            </div>#}
             {{ form_row(form.vimeo_api_key) }}
             <div class="invalid-feedback">
                 {{ form_errors(form.vimeo_api_key) }}

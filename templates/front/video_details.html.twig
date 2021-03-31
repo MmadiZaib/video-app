@@ -3,9 +3,9 @@
 {% block main %}
 
     {% if  video_no_members is not null %}
-        {% set videoId = 'https://player.vimeo.com/video/' ~ video_no_members %}
+        {% set videoId = video_no_members %}
     {% else %}
-        {% set videoId = video.vimeoId %}
+        {% set videoId = video.path %}
     {% endif %}
 
 <br>
