@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <h3>{{ video.title }}</h3>
                     {% if not app.user or video_no_members is not null %}
-                        <p class="card-text text-danger">Video for <b>MEMBERS</b> only. <a href="../pricing.html.twig">Sign
+                        <p class="card-text text-danger">Video for <b>MEMBERS</b> only. <a href="{{ path('pricing') }}">Sign
                                 up</a> for one month for free.</p>
                     {% endif %}
                     <div class="d-flex justify-content-between align-items-center">

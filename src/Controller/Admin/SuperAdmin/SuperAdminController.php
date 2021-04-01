@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -150,6 +151,28 @@ class SuperAdminController extends AbstractController
     }
 
     /**
+     * @Route("/su/upload-video-by-vimeo", name="upload_video_by_vimeo")
+     */
+    public function uploadVideoByVimeo(Request $request): Response
+    {
+        $vimeoId = preg_replace('/^\/.+\//', '', $request->get('vimeo_uri'));
+
+        if ($request->get('videoName') && $vimeoId) {
+            $em = $this->getDoctrine()->getManager();
+            $video = new Video();
+            $video->setTitle($request->get('videoName'));
+            $video->setPath(Video::VIMEO_PATH.$vimeoId);
+
+            $em->persist($video);
+            $em->flush();
+
+            return $this->redirectToRoute('videos');
+        }
+
+        return $this->render('admin/upload_video_by_vimeo.html.twig');
+    }
+
+    /**
      * @Route("/su/delete-video/{video}/{path}", name="delete_video", requirements={"path"=".+"})
      */
     public function deleteVideo(Video $video, string $path, UploaderInterface $fileUploader): Response
@@ -178,6 +201,57 @@ class SuperAdminController extends AbstractController
 
         $em->persist($video);
         $em->flush();
+
+        return $this->redirectToRoute('videos');
+    }
+
+    /**
+     * @Route("/set-video-duration/{video}/{vimeoId}", name="set_video_duration", requirements={"vimeo_id"=".+"})
+     */
+    public function setVideoDuration(Video $video, int $vimeoId): Response
+    {
+        if (!is_numeric($vimeoId)) {
+            return $this->redirectToRoute('videos');
+        }
+
+        $userVimeoToken = $this->getUser()->getVimeoApiKey();
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => sprintf('https://api.vimeo.com/videos/%s', $vimeoId),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/vnd.vimeo.*+json;version=3.4',
+                "Authorization: Bearer $userVimeoToken",
+                'Cache-Control: no-cache',
+                'Content-Type: application/x-www-form-urlencoded',
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            throw new ServiceUnavailableHttpException('Error. Try again later. Message: '.$err);
+        } else {
+            $duration = json_decode($response, true)['duration'] / 60;
+
+            if ($duration) {
+                $video->setDuration($duration);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($video);
+                $em->flush();
+            } else {
+                $this->addFlash('danger', 'We were not able to update duration. Check the video.');
+            }
+        }
 
         return $this->redirectToRoute('videos');
     }

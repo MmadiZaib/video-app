@@ -1,0 +1,6 @@
+imports:
+  - { resource: services.yaml}
+
+
+services:
+  App\Services\Uploader\UploaderInterface: '@App\Services\Uploader\LocalUploader'
