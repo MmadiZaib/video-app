@@ -1,0 +1,10 @@
+admin:
+  controller:
+    user:
+      changed: 'Your changes were saved!'
+  profile:
+    title: 'My profile'
+
+  emails:
+    video:
+      new: 'We have a new video'

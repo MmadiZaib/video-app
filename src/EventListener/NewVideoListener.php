@@ -9,8 +9,6 @@ use Twig\Environment;
 
 class NewVideoListener
 {
-    /**
-     */
     private Environment $templating;
     private \Swift_Mailer $mailer;
 
@@ -39,7 +37,7 @@ class NewVideoListener
                 ->setBody(
                     $this->templating->render('emails/new_video.html.twig', [
                         'name' => $user->getName(),
-                        'video' => $entity
+                        'video' => $entity,
                     ])
                 );
 

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/admin")
@@ -21,7 +22,7 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="admin_main_page")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, TranslatorInterface $translator): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user, [
@@ -45,7 +46,9 @@ class MainController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Your changes were saved!');
+            $translated = $translator->trans('admin.controller.user.changed');
+
+            $this->addFlash('success', $translated);
 
             return $this->redirectToRoute('admin_main_page');
         }

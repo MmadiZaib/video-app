@@ -1,0 +1,4 @@
+admin:
+  controller:
+    user:
+      changed: 'Votre user est changé!'
