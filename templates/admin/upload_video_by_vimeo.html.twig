@@ -4,7 +4,7 @@
     <h2>Upload a video</h2>
 
     <div class="app-user-vimeo-token" data-user-token="{{ app.user.vimeoApiKey }}"></div>
-    <form id="form-upload" method="POST" action="#" enctype="multipart/form-data">
+    <form id="form-upload" method="POST" action="" enctype="multipart/form-data">
         <div class="form-group">
             <div class="custom-file">
                 <input type="file" name="file_data" class="custom-file-input" id="customFile" onchange="onFormChange()">
@@ -13,6 +13,7 @@
         </div>
         <button id="submit-button" type="submit" class="btn btn-primary">Submit</button>
     </form>
+
 {% endblock %}
 
 {% block custom_js %}
@@ -32,13 +33,17 @@
             var fileName = document.getElementById('customFile').files.item(0).name;
             fileName = fileName.replace(/\.[^.]+$/,''); // remove extension
 
+            var urlD = '{{ url('upload_video_by_vimeo') }}';
+
+            console.log(urlD);
+
             var data = "upload.approach=post&name="+fileName+"&privacy.view=anybody&upload.redirect_url={{ url('upload_video_by_vimeo') }}?videoName%3D"+fileName;
             var xhr = new XMLHttpRequest();
 
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
                     var myObj = JSON.parse(this.responseText);
-                    console.log(myObj.upload.form);
+                    console.log("testing: " + myObj.upload.upload_link);
                     document.getElementById("submit-button").disabled = false;
                     document.getElementById("submit-button").innerHTML = "You can upload the video";
                     document.getElementById("form-upload").action = myObj.upload.upload_link;

@@ -4,7 +4,6 @@ namespace App\Tests\Functional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AdminControllerSecurityTest extends WebTestCase
 {
@@ -41,5 +40,6 @@ class AdminControllerSecurityTest extends WebTestCase
         yield ['GET', '/admin/su/delete-category/1'];
         yield ['GET', '/admin/su/users'];
         yield ['GET', '/admin/su/upload-video-locally'];
+        yield ['GET', '/admin/su/upload-video-by-vimeo'];
     }
 }

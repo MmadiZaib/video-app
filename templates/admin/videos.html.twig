@@ -11,7 +11,7 @@
                 <th>Video name</th>
                 <th>Link</th>
                 {% if is_granted('ROLE_ADMIN') %}
-                <th>Category</th>
+                <th>Category</th><th>Duration</th>
                 <th>Delete</th>
                 {% endif %}
             </tr>
@@ -22,10 +22,6 @@
                 <td>{{ loop.index }}</td>
                 <td>{{ video.title }}</td>
                 <td><a target="_blank" href="{{ video.path }}">go to video</a></td>
-
-                {% if is_granted('ROLE_ADMIN') and video.duration is null %}
-                    <a href="{{ path('set_video_duration', {'video': video.id, 'vimeoId': video.vimeoId}) }}">set duration</a>
-                {% endif %}
 
                 {% if is_granted('ROLE_ADMIN') %}
                 <td>
@@ -43,6 +39,11 @@
                             {% endif %}
                         </select>
                     </form>
+                </td>
+                <td>
+                    {% if is_granted('ROLE_ADMIN') and video.duration is null and app.environment != 'dev' %}
+                        <a href="{{ path('set_video_duration', {'video': video.id, 'vimeoId': video.vimeoId}) }}">set duration</a>
+                    {% endif %}
                 </td>
                 <td><a href="{{ path('delete_video', {'video': video.id, 'path': video.path}) }}" onclick="delete_video(event);"><i class="fas fa-trash"></i></a></td>
                 {% endif %}

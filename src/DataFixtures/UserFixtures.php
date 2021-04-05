@@ -36,7 +36,7 @@ class UserFixtures extends Fixture
     private function userData(): array
     {
         return [
-          ['John', 'Doe', 'john@app.test', 'test', 'hjd8dehdh', ['ROLE_ADMIN']],
+          ['John', 'Doe', 'john@app.test', 'test', 'ce2e688482e64dea7da4bec0039fe8e5', ['ROLE_ADMIN']],
           ['user', 'Doe', 'user@app.test', 'test', null, ['ROLE_USER']],
           ['admin', 'Doe', 'admin@app.test', 'test', null, ['ROLE_ADMIN']],
           ['sub', 'sub', 'sub@app.test', 'test', null, ['ROLE_USER']],

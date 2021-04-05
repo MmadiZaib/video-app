@@ -78,7 +78,7 @@ test-single-coverage:
 test-func: clean-db-test	## Lancement des tests fonctionnel
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit tests/functional/
 
-test-single:
+test-single: ## Lancement test sur un fichier unique
 	$(PHP_DOCKER_COMPOSE_EXEC) bin/phpunit --testdox $(test)
 
 tests: test-func test-unit	## Lancement de tous tests

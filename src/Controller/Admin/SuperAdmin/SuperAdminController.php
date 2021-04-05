@@ -155,7 +155,7 @@ class SuperAdminController extends AbstractController
      */
     public function uploadVideoByVimeo(Request $request): Response
     {
-        $vimeoId = preg_replace('/^\/.+\//', '', $request->get('vimeo_uri'));
+        $vimeoId = preg_replace('/^\/.+\//', '', $request->get('video_uri'));
 
         if ($request->get('videoName') && $vimeoId) {
             $em = $this->getDoctrine()->getManager();

@@ -28,6 +28,11 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\EventListener\NewVideoListener:
+        tags:
+            - name: 'doctrine.event_listener'
+              event: 'postPersist'
+
 #    Redis:
 #        class: Redis
 #        calls:
