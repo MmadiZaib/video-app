@@ -7,6 +7,7 @@ use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Video;
 use App\Repository\VideoRepository;
+use App\Services\Cache\CacheInterface;
 use App\Services\VideoForNotValidSubscription;
 use App\Utils\CategoryTreeFrontPage;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -30,22 +31,42 @@ class FrontController extends AbstractController
     /**
      * @Route("/video-list/category/{category_name},{id}/{page}",  defaults={"page": "1"}, name="video_list")
      */
-    public function videoList(int $id, int $page, CategoryTreeFrontPage $categories, Request $request, VideoForNotValidSubscription $videoForNotValidSubscription): Response
+    public function videoList(
+        int $id,
+        int $page,
+        CategoryTreeFrontPage $categories,
+        Request $request,
+        VideoForNotValidSubscription $videoForNotValidSubscription,
+        CacheInterface $cache
+    ): Response
     {
         $categories->getCategoryListAndParent($id);
-        $ids = $categories->getChildIds($id);
+        $cache = $cache->cache;
 
-        array_push($ids, $id);
+        $videoList = $cache->getItem('video_list'. $id . $page . $request->get('sortBy'));
+        $videoList->expiresAfter(60);
 
-        $videos = $this->getDoctrine()
-            ->getRepository(Video::class)
-            ->findByChildIds($page, $ids, $request->get('sortBy'));
+        if (!$videoList->isHit()) {
+            $ids = $categories->getChildIds($id);
 
-        return $this->render('front/video_list.html.twig', [
-            'sub_categories' => $categories,
-            'videos' => $videos,
-            'video_no_members' => $videoForNotValidSubscription->check(),
-        ]);
+            array_push($ids, $id);
+
+            $videos = $this->getDoctrine()
+                ->getRepository(Video::class)
+                ->findByChildIds($page, $ids, $request->get('sortBy'));
+
+            $response = $this->render('front/video_list.html.twig', [
+                'sub_categories' => $categories,
+                'videos' => $videos,
+                'video_no_members' => $videoForNotValidSubscription->check(),
+            ]);
+
+            $videoList->set($response);
+            $cache->save($videoList);
+        }
+
+
+        return $videoList->get();
     }
 
     /**

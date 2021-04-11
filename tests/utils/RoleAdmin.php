@@ -16,6 +16,18 @@ trait RoleAdmin
     protected function setUp(): void
     {
         parent::setUp();
+
+        self::bootKernel();
+        // return the real and unchanged service container
+        $container = self::$kernel->getContainer();
+        // gets the special container that allows fetching private services
+        $container = self::$container;
+        $cache = self::$container->get('App\Services\Cache\CacheInterface');
+
+        $this->cache = $cache->cache;
+        $this->cache->clear();
+
+
         $this->client = static::createClient([] , [
             'PHP_AUTH_USER' => 'admin@app.test',
             'PHP_AUTH_PW'   => 'test',
@@ -28,6 +40,8 @@ trait RoleAdmin
     protected function tearDown(): void
     {
         parent::tearDown();
+        $this->cache->clear();
+
         $this->entityManager = null; // avoid memory leaks
     }
 }
